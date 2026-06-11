@@ -1,0 +1,70 @@
+#+TITLE: sg-refl
+#+AUTHOR: Kabosu
+#+DATE: 2026-06-11
+
+* 项目简介
+简单的struct结构体反射
+文章链接:
+
+* 缺陷 不支持结构体数组
+#+BEGIN_SRC cpp
+struct test_fieds {
+	int tf[3];
+	int tf2;
+}; //error counts_field error
+#+END_SRC
+
+* 使用示例
+#+BEGIN_SRC cpp
+#include "sgrefl.hpp"
+
+struct Health {
+	int hp;
+	int magic;
+};
+
+struct Point {
+	double x, y;
+};
+struct Player {
+	reflect::field<"name", std::string> name_;
+	reflect::field<"hp", int> hp_;
+	reflect::field<"level", int> level_;
+};
+struct Polygon {
+	double x, y;
+	std::vector<Point> vertices;
+	std::vector<int> indices;
+};
+
+int main() {
+	Health hl{ 100, 55 };
+	auto h = reflect::bind_named_tuple(hl);
+
+	std::cout << get<"hp">(h) << std::endl;
+	std::cout << get<"magic">(h) << std::endl;
+
+	Player player{ { "link" }, 100, 10 };
+
+	//change
+	reflect::for_each(player, [](const auto& name, auto& value) {
+		if constexpr (FIELD_NAME_IS(name, "name")) {
+			std::cout << "player name: " << value << std::endl;
+			value = { "lara" };
+		} else if constexpr (FIELD_NAME_IS(name, "hp")) {
+			std::cout << "player hp: " << value << std::endl;
+			value = 80;
+		} else if constexpr (FIELD_NAME_IS(name, "level")) {
+			std::cout << "player level: " << value << std::endl;
+			value = 55;
+		}
+	});
+
+	reflect::for_each(player, [&](auto&& name, auto&& value) {
+		std::cout << "player : " << name.sv() << "-- " << value << std::endl;
+	});
+}
+#+END_SRC
+
+
+* TODO Json XML Serialize
