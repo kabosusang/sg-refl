@@ -47,7 +47,7 @@ constexpr void for_each_field(T&& obj, F&& f) {
 					 std::get<Is>(refs).value),
 					...);
 		} else {
-			// 非侵入式
+			// 无别名
 			(f(
 					 field_name_wrapper<get_name_non_intrusive<RawT, Is>()>{},
 					 std::get<Is>(refs)),
