@@ -7,8 +7,12 @@
 namespace reflect {
 template <auto ptr>
 consteval std::string_view member_name() {
-#if defined(__clang__) || defined(__GNUC__)
+#if defined(__clang__)
 	const auto sig = std::string_view{ __PRETTY_FUNCTION__ };
+#elif defined(__GNUC__)
+	const auto sig = std::string_view{
+		[]() consteval { return __PRETTY_FUNCTION__; }()
+	};
 #elif defined(_MSC_VER)
 	const auto sig = std::string_view{ __FUNCSIG__ };
 #else
@@ -30,7 +34,11 @@ consteval std::string_view member_name() {
 			start = dot_pos + 1;
 		}
 
+		// Clang/GCC 用 ']' 结尾，MSVC 用 '>' 结尾
 		auto end = sig.find(']', start);
+		if (end == sig.npos) {
+			end = sig.find('>', start);
+		}
 		if (end == sig.npos) {
 			end = sig.size();
 		}

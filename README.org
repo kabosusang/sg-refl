@@ -8,6 +8,7 @@
 - [[https://github.com/getml/reflect-cpp][reflect-cpp]] - 通用 C++ 反射与序列化库（支持 JSON, BSON, CBOR, CSV, XML 等 10+ 种格式）
 
 文章链接:
+- https://zhuanlan.zhihu.com/p/2048430062081520255
 
 ** 缺陷 不支持结构体数组
 #+BEGIN_SRC cpp
