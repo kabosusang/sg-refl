@@ -3,8 +3,9 @@
 #+DATE: 2026-06-11
 
 ** 项目简介
-简单的struct结构体反射
-
+参考 reflect-cpp 实现简单的struct结构体反射
+参考项目：
+- [[https://github.com/getml/reflect-cpp][reflect-cpp]] - 通用 C++ 反射与序列化库（支持 JSON, BSON, CBOR, CSV, XML 等 10+ 种格式）
 
 文章链接:
 
