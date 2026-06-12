@@ -5,8 +5,8 @@
 #include "sgrefl.hpp"
 
 struct Health {
-    int hp;
-    int magic;
+	int hp;
+	int magic;
 };
 
 struct Point {
@@ -67,18 +67,23 @@ int main() {
 		std::cout << "player : " << name.sv() << "-- " << value << std::endl;
 	});
 
-	std::cout << "----------- storage -----------" << std::endl;
-
+	std::cout << "----------- Polygon  --------" << std::endl;
 	Polygon poly{
 		1.0, 2.0,
 		{ { 0, 0 }, { 1, 1 }, { 2, 2 } },
 		{ 0, 1, 2 }
 	};
 
+	auto py = reflect::bind_named_tuple(poly);
+	std::cout << get<"x">(py) << std::endl;
+	std::cout << get<"y">(py) << std::endl;
+	for (auto& ve : get<"vertices">(py)) {
+		std::cout << "vertices : " << ve.x << " -- " << ve.y << std::endl;
+	}
 
+	for (auto& indice : get<"indices">(py)) {
+		std::cout << "indices : " << indice << std::endl;
+	}
 
-
-
-
-	
+	std::cout << "----------- storage -----------" << std::endl;
 }
